@@ -45,7 +45,7 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 # CSS 
-gem 'dartsass-sprockets'
+gem 'sassc-rails' # To turn off warnings that interfere with learning, use an older version of sassc-rails.
 gem 'bootstrap', '~> 5.3.3'
 
 group :development, :test do
