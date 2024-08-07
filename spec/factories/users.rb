@@ -1,13 +1,13 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     email { Faker::Internet.email }
-    password 'secret'
+    password { 'secret' }
     password_confirmation { password }
 
     factory :admin do
-      admin true
+      admin { true }
     end
   end
 end

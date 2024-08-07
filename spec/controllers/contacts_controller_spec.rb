@@ -25,12 +25,12 @@ describe ContactsController do
         it "populates an array of contacts starting with the letter" do
           smith = create(:contact, lastname: 'Smith')
           jones = create(:contact, lastname: 'Jones')
-          get :index, letter: 'S'
+          get :index, params: { letter: 'S' }
           expect(assigns(:contacts)).to match_array([smith])
         end
 
         it "renders the :index template" do
-          get :index, letter: 'S'
+          get :index, params: { letter: 'S' }
           expect(response).to render_template :index
         end
       end
@@ -55,14 +55,14 @@ describe ContactsController do
         firstname: 'Lawrence', lastname: 'Smith') }
 
       before :each do
-        allow(Contact).to receive(:persisted?).and_return(true)
+        allow(contact).to receive(:persisted?).and_return(true)
         allow(Contact).to \
           receive(:order).with('lastname, firstname').and_return([contact])
         allow(Contact).to \
           receive(:find).with(contact.id.to_s).and_return(contact)
-        allow(Contact).to receive(:save).and_return(true)
+        allow(contact).to receive(:save).and_return(true)
 
-        get :show, id: contact
+        get :show, params: { id: contact }
       end
 
       it "assigns the requested contact to @contact" do
@@ -99,13 +99,13 @@ describe ContactsController do
     describe 'GET #edit' do
       it "assigns the requested contact to @contact" do
         contact = create(:contact)
-        get :edit, id: contact
+        get :edit, params: { id: contact }
         expect(assigns(:contact)).to eq contact
       end
 
       it "renders the :edit template" do
         contact = create(:contact)
-        get :edit, id: contact
+        get :edit, params: { id: contact }
         expect(response).to render_template :edit
       end
     end
@@ -122,15 +122,17 @@ describe ContactsController do
       context "with valid attributes" do
         it "saves the new contact in the database" do
           expect{
-            post :create, contact: attributes_for(:contact,
-              phones_attributes: @phones)
+            post :create, params: {
+              contact: attributes_for(:contact, phones_attributes: @phones),
+            }
           }.to change(Contact, :count).by(1)
         end
 
         it "redirects to contacts#show" do
           post :create,
-            contact: attributes_for(:contact,
-              phones_attributes: @phones)
+            params: {
+              contact: attributes_for(:contact, phones_attributes: @phones),
+            }
           expect(response).to redirect_to contact_path(assigns[:contact])
         end
       end
@@ -139,13 +141,13 @@ describe ContactsController do
         it "does not save the new contact in the database" do
           expect{
             post :create,
-              contact: attributes_for(:invalid_contact)
+              params: { contact: attributes_for(:invalid_contact) }
           }.not_to change(Contact, :count)
         end
 
         it "re-renders the :new template" do
           post :create,
-            contact: attributes_for(:invalid_contact)
+            params: { contact: attributes_for(:invalid_contact) }
           expect(response).to render_template :new
         end
       end
@@ -163,24 +165,28 @@ describe ContactsController do
         it "locates the requested @contact" do
           allow(contact).to \
             receive(:update).with(valid_attributes.stringify_keys) { true }
-          patch :update, id: @contact,
-            contact: attributes_for(:contact)
+          patch :update, 
+            params: { id: @contact, contact: attributes_for(:contact) }
           expect(assigns(:contact)).to eq @contact
         end
 
         it "changes the contact's attributes" do
-          patch :update, id: @contact,
-            contact: attributes_for(:contact,
-              firstname: 'Larry',
-              lastname: 'Smith'
-            )
+          patch :update, 
+            params: {
+              id: @contact,
+              contact: attributes_for(:contact,
+                firstname: 'Larry',
+                lastname: 'Smith'
+              )
+            }
           @contact.reload
           expect(@contact.firstname).to eq 'Larry'
           expect(@contact.lastname).to eq 'Smith'
         end
 
         it "redirects to the updated contact" do
-          patch :update, id: @contact, contact: attributes_for(:contact)
+          patch :update,
+            params: { id: @contact, contact: attributes_for(:contact) }
           expect(response).to redirect_to @contact
         end
       end
@@ -188,7 +194,7 @@ describe ContactsController do
       context "invalid attributes" do
         before :each do
           allow(contact).to receive(:update).with(invalid_attributes.stringify_keys) { false }
-          patch :update, id: contact, contact: invalid_attributes
+          patch :update, params: { id: contact, contact: invalid_attributes }
         end
 
         it "locates the requested @contact" do
@@ -213,12 +219,12 @@ describe ContactsController do
       it "deletes the contact" do
         contact
         expect{
-          delete :destroy, id: contact
+          delete :destroy, params: { id: contact }
         }.to change(Contact,:count).by(-1)
       end
 
       it "redirects to contacts#index" do
-        delete :destroy, id: @contact
+        delete :destroy, params: { id: @contact }
         expect(response).to redirect_to contacts_url
       end
     end
@@ -255,30 +261,30 @@ describe ContactsController do
     describe 'GET #edit' do
       it "requires login" do
         contact = create(:contact)
-        get :edit, id: contact
+        get :edit, params: { id: contact }
         expect(response).to require_login
       end
     end
 
     describe "POST #create" do
       it "requires login" do
-        post :create, id: create(:contact),
-          contact: attributes_for(:contact)
+        post :create,
+          params: { id: create(:contact), contact: attributes_for(:contact) }
         expect(response).to require_login
       end
     end
 
     describe 'PUT #update' do
       it "requires login" do
-        put :update, id: create(:contact),
-          contact: attributes_for(:contact)
+        put :update, 
+          params: { id: create(:contact), contact: attributes_for(:contact) }
         expect(response).to require_login
       end
     end
 
     describe 'DELETE #destroy' do
       it "requires login" do
-        delete :destroy, id: create(:contact)
+        delete :destroy, params: { id: create(:contact) }
         expect(response).to require_login
       end
     end

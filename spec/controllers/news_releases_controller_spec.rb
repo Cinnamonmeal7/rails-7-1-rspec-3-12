@@ -10,7 +10,7 @@ describe NewsReleasesController, type: :controller do
 
   describe "POST #create" do
     it "requires login" do
-      post :create, news_release: attributes_for(:news_release)
+      post :create, params: { news_release: attributes_for(:news_release) }
       expect(response).to require_login
     end
   end

@@ -1,58 +1,76 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
+ruby "3.3.0"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.1'
+# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+gem "rails", "~> 7.1.3", ">= 7.1.3.4"
+
+# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
+gem "sprockets-rails"
+
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem "sqlite3", "~> 1.4"
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
+# Use the Puma web server [https://github.com/puma/puma]
+gem "puma", ">= 5.0"
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+gem "importmap-rails"
 
-# Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
+# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+gem "turbo-rails"
 
-# Use unicorn as the app server
-# gem 'unicorn'
+# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem "stimulus-rails"
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# Build JSON APIs with ease [https://github.com/rails/jbuilder]
+gem "jbuilder"
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+# Use Redis adapter to run Action Cable in production
+# gem "redis", ">= 4.0.1"
 
-gem 'bootstrap-sass', '~> 3.1.1'
+# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
+# gem "kredis"
+
+# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
+gem "bcrypt", "~> 3.1.7"
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "tzinfo-data", platforms: %i[ windows jruby ]
+
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false
+
+# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+# gem "image_processing", "~> 1.2"
+
+# CSS 
+gem 'dartsass-sprockets'
+gem 'bootstrap', '~> 5.3.3'
 
 group :development, :test do
-  gem "rspec-rails", "~> 3.1.0"
-  gem "factory_girl_rails", "~> 4.4.1"
-  gem 'guard-rspec', '~> 4.3.1'
-  gem 'spring-commands-rspec', '~> 1.0.2'
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "debug", platforms: %i[ mri windows ]
+
+  gem "rspec-rails"
+  gem "factory_bot_rails"
 end
 
 group :test do
-  gem "faker", "~> 1.4.3"
-  gem "capybara", "~> 2.4.3"
-  gem "database_cleaner", "~> 1.3.0"
-  gem "launchy", "~> 2.4.2"
-  gem "selenium-webdriver", "~> 2.43.0"
-  gem 'shoulda-matchers', '~> 2.6.2'
+  gem 'faker'
+  gem 'database_cleaner-active_record'
+  gem 'shoulda-matchers', '~> 6.0'
+  gem 'rails-controller-testing'
+end
+
+group :development do
+  # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem "web-console"
+
+  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
+  # gem "rack-mini-profiler"
+
+  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
+  # gem "spring"
 end
 

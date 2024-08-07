@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :contact do
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.last_name }
@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     after(:build) do |contact|
       [:home_phone, :work_phone, :mobile_phone].each do |phone|
-        contact.phones << FactoryGirl.build(:phone,
+        contact.phones << FactoryBot.build(:phone,
           phone_type: phone,
           contact: contact
         )
@@ -14,7 +14,7 @@ FactoryGirl.define do
     end
 
     factory :invalid_contact do
-      firstname nil
+      firstname { nil }
     end
   end
 end

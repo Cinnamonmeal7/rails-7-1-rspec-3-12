@@ -1,9 +1,9 @@
 require 'faker'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :news_release do
-    title "Test news release"
-    released_on 1.day.ago
+    title { "Test news release" }
+    released_on { 1.day.ago }
     body { Faker::Lorem.paragraph }
   end
 end
